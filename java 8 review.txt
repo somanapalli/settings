@@ -1,0 +1,35 @@
+assertEquals   assertNotEquals    assertFalse  assertArrayEquals    assertSame    assertNotSame    assertThrows    assertTrue    fail()    fail()   
+
+terminal operations
+
+count() min() max() collect() toArray() findAny() findFirst() forEach() forEachOrdered() reduce() anyMatch() allMatch() noneMatch() 
+
+
+Intermediate operations
+
+filter() map() flatMap()  sorted() limit() skip() distinct()
+
+
+
+Stream.of(array_name)      Stream.of(collection of strings)    Arrays.stream(array_name)   
+
+
+Stream<String> str1 = Arrays.stream({"A","B","C  } )
+
+
+
+Collections
+
+Stream s = list.stream() where list is a collection object   
+
+Arrays.stream() list.stream() Stream.of() stream.generate()
+
+
+Consumer IntConsumer  DoubleConsumer  Supplier  BooleanSupplier DoubleSupplier Predicate BiPredicate  Function BiFunction   IntFunction DoubleFunction
+
+
+Collector is made up of four functions   supplier()  accumulator()  combiner()   finisher() 
+
+
+flatMap() extracts the multilevel streams into one level more than one stream into the final result  whereas map() returns a single stream
+
