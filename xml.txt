@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd  
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+	<context:component-scan base-package="com.spring.dao" />
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<!-- Externalizing the configuration -->
+	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer" >
+		<property name="locations">
+			<array>
+				<value>connection.properties</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driverClass}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="initialSize" value="${jdbc.initPoolSize}" />
+		<property name="maxActive" value="${jdbc.maxPoolSize}" />
+	</bean>
+
+	<bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.use_sql_comments">true</prop>
+				<!-- <prop key="hibernate.transaction.factory_class">
+					org.hibernate.transaction.JDBCTransactionFactory
+				</prop> -->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<array>
+				<value>Customer.hbm.xml</value>
+			</array>
+		</property>
+		<!-- Including all *.hbm.xml files from directory. -->
+		<!-- <property name="mappingDirectoryLocations">
+		          <array>
+		               <value>classpath:.</value> 
+			      </array>
+			 </property> -->
+	</bean>
+
+	<bean class="org.springframework.orm.hibernate5.HibernateTemplate" autowire="constructor" />
+	
+	<bean id="transactionManager" 
+	class="org.springframework.orm.hibernate5.HibernateTransactionManager"  
+	autowire="byType"/>
+  
+
+
+	<!-- Below <bean> element no longer required -->
+	<!-- <bean id="custdao" class="edu.aspire.daos.CustomerDaoImpl"> 
+	           <property name="hibernateTemplate" ref="hibernateTemplate"/> 
+		</bean> -->
+</beans>
